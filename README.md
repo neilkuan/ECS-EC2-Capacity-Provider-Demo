@@ -20,7 +20,7 @@ cdk deploy
 cdk deploy
 ```
 ### If destroy fail, please `cdk destroy` again.
-![](./destoy_fail.png)
+![](./destroy_fail.png)
 
 ### ECS EC2 Capacity Provider Metrics.
 ![](./CapacityProviderMetrics.png)
