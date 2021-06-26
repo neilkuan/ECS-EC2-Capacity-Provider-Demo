@@ -1,4 +1,4 @@
-const { AwsCdkTypeScriptApp } = require('projen');
+const { AwsCdkTypeScriptApp, DependenciesUpgradeMechanism } = require('projen');
 const project = new AwsCdkTypeScriptApp({
   cdkVersion: '1.110.0',
   defaultReleaseBranch: 'main',
@@ -9,6 +9,16 @@ const project = new AwsCdkTypeScriptApp({
     '@aws-cdk/aws-autoscaling',
   ],
   gitignore: ['cdk.context.json'],
-  depsUpgrade: false,
+  autoDetectBin: false,
+  depsUpgrade: DependenciesUpgradeMechanism.githubWorkflow({
+    workflowOptions: {
+      labels: ['auto-approve'],
+      secret: 'GITHUB_TOKEN',
+    },
+  }),
+  autoApproveOptions: {
+    secret: 'GITHUB_TOKEN',
+    allowedUsernames: ['neilkuan'],
+  },
 });
 project.synth();
