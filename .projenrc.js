@@ -13,7 +13,7 @@ const project = new AwsCdkTypeScriptApp({
   depsUpgrade: DependenciesUpgradeMechanism.githubWorkflow({
     workflowOptions: {
       labels: ['auto-approve'],
-      secret: 'GITHUB_TOKEN',
+      secret: 'AUTOMATION_GITHUB_TOKEN',
     },
   }),
   autoApproveOptions: {
