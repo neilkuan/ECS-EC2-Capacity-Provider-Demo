@@ -3,7 +3,7 @@ const project = new AwsCdkTypeScriptApp({
   cdkVersion: '1.110.0',
   defaultReleaseBranch: 'main',
   name: 'tryEcsEc2AutoScaling',
-  authorName: 'Neil Kuab',
+  authorName: 'Neil Kuan',
   authorEmail: 'guan840912@gmail.com',
   repository: 'https://github.com/neilkuan/ECS-EC2-Capacity-Provider-Demo.git',
   cdkDependencies: [
@@ -20,7 +20,7 @@ const project = new AwsCdkTypeScriptApp({
     },
   }),
   autoApproveOptions: {
-    secret: 'AUTOMATION_GITHUB_TOKEN',
+    secret: 'GITHUB_TOKEN',
     allowedUsernames: ['neilkuan'],
   },
 });

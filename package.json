@@ -24,7 +24,7 @@
     "start": "npx projen start"
   },
   "author": {
-    "name": "Neil Kuab",
+    "name": "Neil Kuan",
     "email": "guan840912@gmail.com",
     "organization": false
   },
