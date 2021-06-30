@@ -3,7 +3,7 @@ import * as ec2 from '@aws-cdk/aws-ec2';
 import * as ecs from '@aws-cdk/aws-ecs';
 import { App, Construct, Stack, StackProps } from '@aws-cdk/core';
 export interface MyStackProps extends StackProps {
-  vpc?: ec2.IVpc
+  vpc?: ec2.IVpc;
 }
 
 export class MyStack extends Stack {
