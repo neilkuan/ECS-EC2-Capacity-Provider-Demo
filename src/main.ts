@@ -2,15 +2,18 @@ import * as autoscaling from '@aws-cdk/aws-autoscaling';
 import * as ec2 from '@aws-cdk/aws-ec2';
 import * as ecs from '@aws-cdk/aws-ecs';
 import { App, Construct, Stack, StackProps } from '@aws-cdk/core';
-export interface MyStackProps extends StackProps {
-  vpc?: ec2.IVpc
-}
+
+export interface CPDemoStackProps extends StackProps {
+  isdefaultvpc?: boolean;
+};
 
 export class MyStack extends Stack {
-  constructor(scope: Construct, id: string, props?: MyStackProps) {
+  readonly vpc: ec2.IVpc;
+  constructor(scope: Construct, id: string, props?: CPDemoStackProps) {
     super(scope, id, props);
     // this vpc do not have private subnet.
-    const vpc = props?.vpc ?? ec2.Vpc.fromLookup(this, 'defVpc', { isDefault: true });
+    this.vpc = props?.isdefaultvpc ? ec2.Vpc.fromLookup(this, 'defVpc', { isDefault: true }) : new ec2.Vpc(this, 'newVpc', { natGateways: 1, maxAzs: 3 });
+    const vpc = this.vpc;
     const autoScalingGroup = new autoscaling.AutoScalingGroup(this, 'ASG', {
       vpc,
       // 1 vcpu , 1GB  to demo.
