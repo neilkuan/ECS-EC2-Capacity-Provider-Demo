@@ -25,7 +25,7 @@ export class MyStack extends Stack {
       spotPrice: '0.0136',
       desiredCapacity: 1,
     });
-    const ecsC = new ecs.Cluster(this, 'tryEcsEc2AutoScalingCluster', {
+    const ecsC = new ecs.Cluster(this, 'EcsEc2ASGCluster', {
       clusterName: 'Ec2AutoScalingCluster',
       vpc,
     });
@@ -33,7 +33,6 @@ export class MyStack extends Stack {
 
     ecsC.addAsgCapacityProvider(capacityProvider);
 
-    //capacityProvider.node.addDependency(ecsC.node.children.find(c=> (c as CfnResource).cfnResourceType === 'AWS::ECS::ClusterCapacityProviderAssociations') as ecs.CfnClusterCapacityProviderAssociations);
     const taskDefinition = new ecs.Ec2TaskDefinition(this, 'testNginxTD');
     taskDefinition.addContainer('testNginxC', {
       // let task desiredCount 2 need 2 nodes.
@@ -42,7 +41,7 @@ export class MyStack extends Stack {
       memoryLimitMiB: 600,
       image: ecs.ContainerImage.fromRegistry('public.ecr.aws/ubuntu/nginx:latest'),
     });
-    new ecs.Ec2Service(this, 'testNginx', {
+    const svc = new ecs.Ec2Service(this, 'testNginx', {
       taskDefinition,
       cluster: ecsC,
       desiredCount: 1,
@@ -54,6 +53,8 @@ export class MyStack extends Stack {
         },
       ],
     });
+
+    svc.node.addDependency(this.node.tryFindChild('EcsEc2ASGCluster') as ecs.CfnClusterCapacityProviderAssociations);
   }
 }
 
@@ -65,6 +66,4 @@ const devEnv = {
 
 const app = new App();
 
-new MyStack(app, 'tryEcsEc2AutoScaling', { env: devEnv });
-
-app.synth();
+new MyStack(app, 'EcsEc2ASG', { env: devEnv });
